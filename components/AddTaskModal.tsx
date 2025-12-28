@@ -1,5 +1,6 @@
-import { Modal, Pressable, Text, TextInput, View } from "react-native";
+import { BaseModal } from "@/components/BaseModal";
 import { styles } from "@/styles/calendar.styles";
+import { Pressable, Text, TextInput } from "react-native";
 
 type Props = {
 	visible: boolean;
@@ -17,28 +18,28 @@ export function AddTaskModal({
 	onClose,
 }: Props) {
 	return (
-		<Modal transparent visible={visible} animationType="fade">
-			<View style={styles.overlay}>
-				<View style={styles.addBox}>
-					<Text style={styles.title}>New Task</Text>
+		<BaseModal
+			visible={visible}
+			onClose={onClose}
+			placement="center"
+			animation="fade"
+		>
+			<Text style={styles.title}>Add Task</Text>
 
-					<TextInput
-						value={value}
-						onChangeText={onChange}
-						placeholder="Task name"
-						placeholderTextColor="#777"
-						style={styles.input}
-					/>
+			<TextInput
+				value={value}
+				onChangeText={onChange}
+				placeholder="Task name"
+				placeholderTextColor="#9ca3af"
+				style={styles.input}
+			/>
 
-					<Pressable style={styles.save} onPress={onSave}>
-						<Text style={styles.btnText}>Save</Text>
-					</Pressable>
-
-					<Pressable onPress={onClose}>
-						<Text style={styles.close}>Cancel</Text>
-					</Pressable>
-				</View>
-			</View>
-		</Modal>
+			<Pressable style={styles.save} onPress={onSave}>
+				<Text>Save</Text>
+			</Pressable>
+			<Pressable style={styles.close} onPress={onClose}>
+				<Text>Close</Text>
+			</Pressable>
+		</BaseModal>
 	);
 }

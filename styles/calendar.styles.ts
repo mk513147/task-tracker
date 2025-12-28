@@ -1,12 +1,16 @@
-import { Dimensions, StyleSheet } from "react-native";
 import {
-	Dumbbell,
 	BookOpen,
 	Brain,
+	CheckSquare,
+	Dumbbell,
 	Flame,
 	HeartPulse,
-	CheckSquare,
 } from "lucide-react-native";
+import { Dimensions, StyleSheet } from "react-native";
+
+/* ============================================================================
+ * ICON CONFIG
+ * ========================================================================== */
 
 export const ICONS = {
 	exercise: Dumbbell,
@@ -17,6 +21,10 @@ export const ICONS = {
 	default: CheckSquare,
 };
 
+/* ============================================================================
+ * LAYOUT CONSTANTS
+ * ========================================================================== */
+
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const HEADER_HEIGHT = 120;
 const GRID_HEIGHT = SCREEN_HEIGHT - HEADER_HEIGHT;
@@ -25,31 +33,42 @@ const ROWS = 6;
 export const CELL_WIDTH = Dimensions.get("window").width / 7;
 export const CELL_HEIGHT = GRID_HEIGHT / ROWS;
 
+/* ============================================================================
+ * STYLES
+ * ========================================================================== */
+
 export const styles = StyleSheet.create({
-	container: { flex: 1, backgroundColor: "#0b1220", paddingTop: 12 },
+	/* ------------------------------------------------------------------------
+	 * APP ROOT / SAFE AREA
+	 * --------------------------------------------------------------------- */
 
-	// monthText: {
-	// 	color: "#e5e7eb",
-	// 	fontSize: 18,
-	// 	fontWeight: "700",
-	// 	textAlign: "center",
-	// 	marginBottom: 8,
-	// },
-	// safe: {
-	// 	flex: 1,
-	// 	backgroundColor: "#0b1220",
-	// },
+	container: {
+		flex: 1,
+		backgroundColor: "#0b1220",
+		paddingTop: 12,
+	},
 
-	// weekRow: {
-	// 	flexDirection: "row",
-	// },
 	safe: {
 		flex: 1,
 		backgroundColor: "#0b1220",
 	},
 
+	/* ------------------------------------------------------------------------
+	 * HEADER (MONTH + WEEKDAYS)
+	 * --------------------------------------------------------------------- */
+
 	headerArea: {
 		paddingVertical: 8,
+		marginTop: 12,
+		marginBottom: 4,
+	},
+
+	monthRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		width: "100%",
+		paddingHorizontal: 16,
 	},
 
 	monthText: {
@@ -57,10 +76,10 @@ export const styles = StyleSheet.create({
 		fontWeight: "700",
 		color: "#e5e7eb",
 		textAlign: "center",
-		marginBottom: 6,
 	},
 
 	weekRow: {
+		marginTop: 12,
 		flexDirection: "row",
 	},
 
@@ -71,17 +90,13 @@ export const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 
-	gridArea: {
-		flex: 1, // THIS IS CRITICAL
-	},
+	/* ------------------------------------------------------------------------
+	 * CALENDAR GRID
+	 * --------------------------------------------------------------------- */
 
-	// weekText: {
-	// 	width: CELL_WIDTH,
-	// 	textAlign: "center",
-	// 	color: "#9ca3af",
-	// 	fontSize: 12,
-	// 	marginBottom: 4,
-	// },
+	gridArea: {
+		flex: 1,
+	},
 
 	cell: {
 		width: CELL_WIDTH,
@@ -90,7 +105,7 @@ export const styles = StyleSheet.create({
 		alignItems: "flex-start",
 		padding: 6,
 		borderWidth: 0.5,
-		borderColor: "#111827",
+		borderColor: "#36363897",
 	},
 
 	todayCell: {
@@ -106,14 +121,10 @@ export const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 
-	// fab: {
-	// 	position: "absolute",
-	// 	bottom: 24,
-	// 	right: 24,
-	// 	backgroundColor: "#6d28d9",
-	// 	padding: 18,
-	// 	borderRadius: 999,
-	// },
+	/* ------------------------------------------------------------------------
+	 * FLOATING ACTION BUTTON
+	 * --------------------------------------------------------------------- */
+
 	fab: {
 		position: "absolute",
 		bottom: 24,
@@ -122,17 +133,58 @@ export const styles = StyleSheet.create({
 		padding: 18,
 		borderRadius: 999,
 		zIndex: 10,
-		elevation: 10, // Android
+		elevation: 10,
 	},
 
+	/* ------------------------------------------------------------------------
+	 * MODAL BACKDROP & BLUR
+	 * --------------------------------------------------------------------- */
+
+	backdrop: {
+		flex: 1,
+	},
+
+	blur: {
+		...StyleSheet.absoluteFillObject,
+		flex: 1,
+	},
+
+	dimOverlay: {
+		...StyleSheet.absoluteFillObject,
+		backgroundColor: "rgba(0,0,0,0.45)",
+	},
+
+	/* ------------------------------------------------------------------------
+	 * MODAL SHEETS (BOTTOM / CENTER / TOP)
+	 * --------------------------------------------------------------------- */
+
 	sheet: {
-		marginTop: "auto",
-		backgroundColor: "#020617",
+		position: "absolute",
+		bottom: 0,
+		width: "100%",
+		backgroundColor: "#111827",
 		borderTopLeftRadius: 20,
 		borderTopRightRadius: 20,
-		padding: 20,
-		maxHeight: "85%",
+		padding: 16,
 	},
+
+	centerSheet: {
+		alignSelf: "center",
+		top: "35%",
+		height: SCREEN_HEIGHT * 0.3,
+		width: "90%",
+		borderRadius: 16,
+	},
+
+	topSheet: {
+		top: 0,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
+	},
+
+	/* ------------------------------------------------------------------------
+	 * MODAL CONTENT (TEXT / TASKS)
+	 * --------------------------------------------------------------------- */
 
 	title: {
 		fontSize: 18,
@@ -141,7 +193,9 @@ export const styles = StyleSheet.create({
 		marginBottom: 12,
 	},
 
-	taskRow: { marginBottom: 14 },
+	taskRow: {
+		marginBottom: 14,
+	},
 
 	taskLeft: {
 		flexDirection: "row",
@@ -149,9 +203,25 @@ export const styles = StyleSheet.create({
 		gap: 6,
 	},
 
-	taskText: { color: "#e5e7eb" },
+	taskText: {
+		color: "#e5e7eb",
+	},
 
-	actions: { flexDirection: "row", gap: 8, marginTop: 6 },
+	statusText: {
+		marginTop: 6,
+		fontSize: 13,
+		color: "#9ca3af",
+	},
+
+	/* ------------------------------------------------------------------------
+	 * TASK ACTION BUTTONS
+	 * --------------------------------------------------------------------- */
+
+	actions: {
+		flexDirection: "row",
+		gap: 8,
+		marginTop: 6,
+	},
 
 	btn: {
 		flex: 1,
@@ -160,15 +230,34 @@ export const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	yes: { backgroundColor: "#16a34a" },
-	no: { backgroundColor: "#dc2626" },
-	btnText: { color: "white", fontWeight: "600" },
+	yes: {
+		backgroundColor: "#16a34a",
+	},
 
-	statusText: { marginTop: 6, fontSize: 13 },
+	no: {
+		backgroundColor: "#dc2626",
+	},
 
-	yesText: { color: "#22c55e" },
-	noText: { color: "#ef4444" },
-	pendingText: { color: "#9ca3af" },
+	btnText: {
+		color: "white",
+		fontWeight: "600",
+	},
+
+	yesText: {
+		color: "#22c55e",
+	},
+
+	noText: {
+		color: "#ef4444",
+	},
+
+	pendingText: {
+		color: "#9ca3af",
+	},
+
+	/* ------------------------------------------------------------------------
+	 * ADD TASK MODAL
+	 * --------------------------------------------------------------------- */
 
 	overlay: {
 		flex: 1,
@@ -202,8 +291,16 @@ export const styles = StyleSheet.create({
 	close: {
 		marginTop: 14,
 		textAlign: "center",
-		color: "#94a3b8",
+		backgroundColor: "#3d3f3fbd",
+		color: "#ffffffff",
+		padding: 12,
+		borderRadius: 8,
+		alignItems: "center",
 	},
+
+	/* ------------------------------------------------------------------------
+	 * NAVIGATION / ARROWS
+	 * --------------------------------------------------------------------- */
 
 	monthHeader: {
 		flexDirection: "row",
